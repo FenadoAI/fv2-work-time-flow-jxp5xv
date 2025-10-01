@@ -9,6 +9,7 @@ const EmployeeDashboard = () => {
   const { user, logout, token } = useAuth();
   const [leaveBalance, setLeaveBalance] = useState(null);
   const [leaveRequests, setLeaveRequests] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     leave_type: "cl",
@@ -25,6 +26,7 @@ const EmployeeDashboard = () => {
   useEffect(() => {
     fetchLeaveBalance();
     fetchLeaveRequests();
+    fetchAnnouncements();
   }, []);
 
   const fetchLeaveBalance = async () => {
@@ -42,6 +44,15 @@ const EmployeeDashboard = () => {
       setLeaveRequests(res.data);
     } catch (err) {
       console.error("Error fetching requests:", err);
+    }
+  };
+
+  const fetchAnnouncements = async () => {
+    try {
+      const res = await axios.get(`${API}/announcements`, { headers });
+      setAnnouncements(res.data.slice(0, 3)); // Show only latest 3
+    } catch (err) {
+      console.error("Error fetching announcements:", err);
     }
   };
 
@@ -89,12 +100,32 @@ const EmployeeDashboard = () => {
               <h1 className="text-2xl font-bold text-slate-900">Employee Dashboard</h1>
               <p className="text-sm text-slate-600 mt-1">Welcome, {user?.username}</p>
             </div>
-            <button
-              onClick={logout}
-              className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-slate-900 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
-            >
-              Logout
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => navigate('/announcements')}
+                className="px-4 py-2 text-sm font-semibold text-purple-700 hover:text-purple-900 border border-purple-300 rounded-lg hover:bg-purple-50 transition-colors"
+              >
+                📢 Announcements
+              </button>
+              <button
+                onClick={() => navigate('/profile')}
+                className="px-4 py-2 text-sm font-semibold text-blue-700 hover:text-blue-900 border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors"
+              >
+                My Profile
+              </button>
+              <button
+                onClick={() => navigate('/attendance')}
+                className="px-4 py-2 text-sm font-semibold text-green-700 hover:text-green-900 border border-green-300 rounded-lg hover:bg-green-50 transition-colors"
+              >
+                Attendance
+              </button>
+              <button
+                onClick={logout}
+                className="px-4 py-2 text-sm font-semibold text-slate-700 hover:text-slate-900 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -109,6 +140,44 @@ const EmployeeDashboard = () => {
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
             {error}
+          </div>
+        )}
+
+        {/* Announcements */}
+        {announcements.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-slate-900 mb-4">📢 Announcements</h2>
+            <div className="space-y-3">
+              {announcements.map((announcement) => (
+                <div
+                  key={announcement.id}
+                  className={`p-4 rounded-lg border-l-4 ${
+                    announcement.priority === 'urgent' ? 'bg-red-50 border-red-500' :
+                    announcement.priority === 'high' ? 'bg-orange-50 border-orange-500' :
+                    announcement.priority === 'normal' ? 'bg-blue-50 border-blue-500' :
+                    'bg-gray-50 border-gray-500'
+                  }`}
+                >
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-slate-900">{announcement.title}</h3>
+                      <p className="text-sm text-slate-600 mt-1">{announcement.content}</p>
+                    </div>
+                    <span className={`text-xs font-semibold px-2 py-1 rounded ${
+                      announcement.priority === 'urgent' ? 'bg-red-100 text-red-800' :
+                      announcement.priority === 'high' ? 'bg-orange-100 text-orange-800' :
+                      announcement.priority === 'normal' ? 'bg-blue-100 text-blue-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {announcement.priority.toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="text-xs text-slate-500 mt-2">
+                    By {announcement.created_by_name} • {new Date(announcement.created_at).toLocaleDateString()}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 

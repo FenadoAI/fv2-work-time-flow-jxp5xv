@@ -96,6 +96,9 @@ import Register from "./pages/Register";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
 import ManagerDashboard from "./pages/ManagerDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import ProfilePage from "./pages/ProfilePage";
+import AttendancePage from "./pages/AttendancePage";
+import AnnouncementsPage from "./pages/AnnouncementsPage";
 
 function App() {
   return (
@@ -123,6 +126,21 @@ function App() {
             <Route path="/admin" element={
               <ProtectedRoute allowedRoles={["admin"]}>
                 <AdminDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/attendance" element={
+              <ProtectedRoute>
+                <AttendancePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/announcements" element={
+              <ProtectedRoute>
+                <AnnouncementsPage />
               </ProtectedRoute>
             } />
           </Routes>

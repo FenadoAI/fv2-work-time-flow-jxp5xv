@@ -79,3 +79,118 @@ Build a complete HRIS leave management system with:
    - **Employee**: View balance, apply for leave, track requests
    - **Manager**: Approve/reject pending requests, view team calendar
    - **Admin**: Manage users, configure balances, export reports
+
+---
+
+## Enhancement: Additional HRIS Features (Phase 2)
+**Date**: 2025-10-01
+**Requirement ID**: fv2-work-time-flow-jxp5xv
+
+### New Features Implemented
+
+#### 1. Employee Profile Management
+**Backend APIs:**
+- GET /api/profile - Get current user's profile
+- PUT /api/profile - Update current user's profile
+- GET /api/profile/{user_id} - Get any user's profile (Manager/Admin access)
+
+**Features:**
+- Personal Information (phone, address, emergency contacts)
+- Professional Details (department, designation, joining date)
+- Personal Details (DOB, blood group)
+- Skills Management (add/remove skills)
+- Document Management (base64 storage support)
+- Profile photo upload support
+
+**Frontend:**
+- ProfilePage.js - Complete profile management interface
+- Navigation links in all dashboards
+
+#### 2. Attendance Management
+**Backend APIs:**
+- POST /api/attendance/check-in - Check in for the day
+- POST /api/attendance/check-out - Check out for the day
+- GET /api/attendance/my-records - Get attendance history (30 days)
+- GET /api/attendance/today - Get today's attendance status
+- GET /api/attendance/report - Export attendance report (Manager/Admin)
+
+**Features:**
+- Daily check-in/check-out with timestamps
+- Automatic status calculation (present/late/half_day)
+- Work hours calculation
+- Attendance history tracking
+- Late arrival detection (after 9:15 AM)
+- Half-day detection (< 4 hours work)
+
+**Frontend:**
+- AttendancePage.js - Attendance tracking interface
+- Today's attendance card with check-in/out buttons
+- Attendance history table with 30-day records
+- Navigation links in all dashboards
+
+#### 3. Announcements System
+**Backend APIs:**
+- POST /api/announcements - Create announcement (Admin only)
+- GET /api/announcements - Get announcements for current user
+- DELETE /api/announcements/{id} - Delete announcement (Admin only)
+
+**Features:**
+- Company-wide announcements
+- Priority levels (low, normal, high, urgent)
+- Role-based targeting (all, employee, manager, admin)
+- Soft delete (deactivation)
+- Creator tracking
+
+**Frontend:**
+- AnnouncementsPage.js - Full announcement management
+- Announcements section in Employee Dashboard
+- Priority-based color coding
+- Admin creation interface with role targeting
+
+### Database Collections Added
+1. **attendance** - Stores daily attendance records
+2. **announcements** - Stores company announcements
+
+### Updated Files
+**Backend:**
+- server.py - Added 18 new API endpoints across 3 modules
+
+**Frontend:**
+- App.js - Added 3 new routes
+- EmployeeDashboard.js - Added announcements display and navigation
+- ProfilePage.js - New (complete profile management)
+- AttendancePage.js - New (attendance tracking)
+- AnnouncementsPage.js - New (announcement management)
+
+### Testing
+- All backend APIs tested successfully using test_new_hris_apis.py
+- Complete workflow verified:
+  - User registration → Profile update → Check-in/out → Announcement creation → View
+
+### Feature Summary
+✅ Employee Profile Management (personal, professional, skills)
+✅ Attendance Tracking (check-in/out, work hours, history)
+✅ Announcements System (priority-based, role-targeted)
+✅ Role-based access control maintained
+✅ Beautiful UI following Ocean Blue design system
+✅ All features integrated into existing dashboards
+
+### Total Features Now Available
+**Original (Phase 1):**
+- Multi-role authentication (Employee, Manager, Admin)
+- Leave management (5 types)
+- Leave approval workflow
+- Leave calendar and balance tracking
+- Admin panel for user/leave management
+- Exportable reports
+
+**New (Phase 2):**
+- Employee profile management
+- Attendance tracking system
+- Company announcements
+
+### How to Use New Features
+1. **Profile Management**: Click "My Profile" button in dashboard header
+2. **Attendance**: Click "Attendance" button in dashboard header
+3. **Announcements**: Click "📢 Announcements" button or view in dashboard
+4. **Admin Announcements**: Navigate to Announcements page to create/manage

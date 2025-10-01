@@ -111,6 +111,82 @@ class LeaveBalanceResponse(BaseModel):
     compensatory: float
 
 
+# Employee Profile Models
+class EmployeeProfileUpdate(BaseModel):
+    phone: Optional[str] = None
+    emergency_contact: Optional[str] = None
+    emergency_phone: Optional[str] = None
+    address: Optional[str] = None
+    department: Optional[str] = None
+    designation: Optional[str] = None
+    joining_date: Optional[str] = None
+    date_of_birth: Optional[str] = None
+    blood_group: Optional[str] = None
+    skills: Optional[List[str]] = None
+    documents: Optional[Dict[str, str]] = None  # {doc_name: base64_content}
+    profile_photo: Optional[str] = None  # base64 image
+
+
+class EmployeeProfileResponse(BaseModel):
+    id: str
+    username: str
+    email: str
+    role: str
+    phone: Optional[str] = None
+    emergency_contact: Optional[str] = None
+    emergency_phone: Optional[str] = None
+    address: Optional[str] = None
+    department: Optional[str] = None
+    designation: Optional[str] = None
+    joining_date: Optional[str] = None
+    date_of_birth: Optional[str] = None
+    blood_group: Optional[str] = None
+    skills: Optional[List[str]] = None
+    documents: Optional[Dict[str, str]] = None
+    profile_photo: Optional[str] = None
+
+
+# Attendance Models
+class AttendanceCheckIn(BaseModel):
+    notes: Optional[str] = None
+
+
+class AttendanceCheckOut(BaseModel):
+    notes: Optional[str] = None
+
+
+class AttendanceResponse(BaseModel):
+    id: str
+    employee_id: str
+    employee_name: str
+    date: str
+    check_in: str
+    check_out: Optional[str] = None
+    work_hours: Optional[float] = None
+    status: str  # present, late, absent, half_day
+    notes: Optional[str] = None
+
+
+# Announcement Models
+class AnnouncementCreate(BaseModel):
+    title: str
+    content: str
+    priority: str = "normal"  # low, normal, high, urgent
+    target_roles: Optional[List[str]] = None  # None means all roles
+
+
+class AnnouncementResponse(BaseModel):
+    id: str
+    title: str
+    content: str
+    priority: str
+    target_roles: Optional[List[str]] = None
+    created_by: str
+    created_by_name: str
+    created_at: str
+    is_active: bool
+
+
 # Original Models
 class StatusCheck(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -680,6 +756,442 @@ async def get_leave_report(request: Request, user: Dict = Depends(get_current_us
         })
 
     return {"success": True, "report": report, "total_requests": len(report)}
+
+
+# ============= EMPLOYEE PROFILE ENDPOINTS =============
+
+@api_router.get("/profile", response_model=EmployeeProfileResponse)
+async def get_my_profile(request: Request, user: Dict = Depends(get_current_user)):
+    """Get current user's profile."""
+    db = _ensure_db(request)
+    user_data = await db.users.find_one({"_id": user["id"]})
+
+    if not user_data:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return EmployeeProfileResponse(
+        id=user_data["_id"],
+        username=user_data["username"],
+        email=user_data["email"],
+        role=user_data["role"],
+        phone=user_data.get("phone"),
+        emergency_contact=user_data.get("emergency_contact"),
+        emergency_phone=user_data.get("emergency_phone"),
+        address=user_data.get("address"),
+        department=user_data.get("department"),
+        designation=user_data.get("designation"),
+        joining_date=user_data.get("joining_date"),
+        date_of_birth=user_data.get("date_of_birth"),
+        blood_group=user_data.get("blood_group"),
+        skills=user_data.get("skills"),
+        documents=user_data.get("documents"),
+        profile_photo=user_data.get("profile_photo")
+    )
+
+
+@api_router.put("/profile", response_model=EmployeeProfileResponse)
+async def update_my_profile(
+    profile_data: EmployeeProfileUpdate,
+    request: Request,
+    user: Dict = Depends(get_current_user)
+):
+    """Update current user's profile."""
+    db = _ensure_db(request)
+
+    # Build update dict with only provided fields
+    update_fields = {}
+    for field, value in profile_data.model_dump(exclude_unset=True).items():
+        if value is not None:
+            update_fields[field] = value
+
+    if update_fields:
+        await db.users.update_one(
+            {"_id": user["id"]},
+            {"$set": update_fields}
+        )
+
+    # Fetch and return updated profile
+    user_data = await db.users.find_one({"_id": user["id"]})
+
+    return EmployeeProfileResponse(
+        id=user_data["_id"],
+        username=user_data["username"],
+        email=user_data["email"],
+        role=user_data["role"],
+        phone=user_data.get("phone"),
+        emergency_contact=user_data.get("emergency_contact"),
+        emergency_phone=user_data.get("emergency_phone"),
+        address=user_data.get("address"),
+        department=user_data.get("department"),
+        designation=user_data.get("designation"),
+        joining_date=user_data.get("joining_date"),
+        date_of_birth=user_data.get("date_of_birth"),
+        blood_group=user_data.get("blood_group"),
+        skills=user_data.get("skills"),
+        documents=user_data.get("documents"),
+        profile_photo=user_data.get("profile_photo")
+    )
+
+
+@api_router.get("/profile/{user_id}", response_model=EmployeeProfileResponse)
+async def get_user_profile(
+    user_id: str,
+    request: Request,
+    user: Dict = Depends(get_current_user)
+):
+    """Get any user's profile (Manager/Admin can view all, Employee can view own)."""
+    db = _ensure_db(request)
+
+    # Check permissions
+    if user["role"] not in ["manager", "admin"] and user["id"] != user_id:
+        raise HTTPException(status_code=403, detail="Cannot view other user profiles")
+
+    user_data = await db.users.find_one({"_id": user_id})
+
+    if not user_data:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return EmployeeProfileResponse(
+        id=user_data["_id"],
+        username=user_data["username"],
+        email=user_data["email"],
+        role=user_data["role"],
+        phone=user_data.get("phone"),
+        emergency_contact=user_data.get("emergency_contact"),
+        emergency_phone=user_data.get("emergency_phone"),
+        address=user_data.get("address"),
+        department=user_data.get("department"),
+        designation=user_data.get("designation"),
+        joining_date=user_data.get("joining_date"),
+        date_of_birth=user_data.get("date_of_birth"),
+        blood_group=user_data.get("blood_group"),
+        skills=user_data.get("skills"),
+        documents=user_data.get("documents"),
+        profile_photo=user_data.get("profile_photo")
+    )
+
+
+# ============= ATTENDANCE ENDPOINTS =============
+
+@api_router.post("/attendance/check-in", response_model=AttendanceResponse)
+async def check_in(
+    check_in_data: AttendanceCheckIn,
+    request: Request,
+    user: Dict = Depends(get_current_user)
+):
+    """Check in for the day."""
+    db = _ensure_db(request)
+
+    today = datetime.now(timezone.utc).date().isoformat()
+
+    # Check if already checked in today
+    existing = await db.attendance.find_one({
+        "employee_id": user["id"],
+        "date": today
+    })
+
+    if existing:
+        raise HTTPException(status_code=400, detail="Already checked in today")
+
+    check_in_time = datetime.now(timezone.utc)
+
+    # Determine status based on time (assuming 9 AM is start time)
+    status = "present"
+    if check_in_time.hour > 9 or (check_in_time.hour == 9 and check_in_time.minute > 15):
+        status = "late"
+
+    attendance_id = str(uuid.uuid4())
+    attendance = {
+        "_id": attendance_id,
+        "employee_id": user["id"],
+        "date": today,
+        "check_in": check_in_time.isoformat(),
+        "check_out": None,
+        "work_hours": None,
+        "status": status,
+        "notes": check_in_data.notes
+    }
+
+    await db.attendance.insert_one(attendance)
+
+    return AttendanceResponse(
+        id=attendance_id,
+        employee_id=user["id"],
+        employee_name=user["username"],
+        date=today,
+        check_in=check_in_time.isoformat(),
+        check_out=None,
+        work_hours=None,
+        status=status,
+        notes=check_in_data.notes
+    )
+
+
+@api_router.post("/attendance/check-out", response_model=AttendanceResponse)
+async def check_out(
+    check_out_data: AttendanceCheckOut,
+    request: Request,
+    user: Dict = Depends(get_current_user)
+):
+    """Check out for the day."""
+    db = _ensure_db(request)
+
+    today = datetime.now(timezone.utc).date().isoformat()
+
+    # Find today's attendance
+    attendance = await db.attendance.find_one({
+        "employee_id": user["id"],
+        "date": today
+    })
+
+    if not attendance:
+        raise HTTPException(status_code=400, detail="No check-in found for today")
+
+    if attendance.get("check_out"):
+        raise HTTPException(status_code=400, detail="Already checked out today")
+
+    check_out_time = datetime.now(timezone.utc)
+    check_in_time = datetime.fromisoformat(attendance["check_in"])
+
+    # Calculate work hours
+    work_hours = (check_out_time - check_in_time).total_seconds() / 3600
+
+    # Update status based on work hours
+    status = attendance["status"]
+    if work_hours < 4:
+        status = "half_day"
+
+    # Update attendance
+    await db.attendance.update_one(
+        {"_id": attendance["_id"]},
+        {
+            "$set": {
+                "check_out": check_out_time.isoformat(),
+                "work_hours": round(work_hours, 2),
+                "status": status,
+                "notes": check_out_data.notes if check_out_data.notes else attendance.get("notes")
+            }
+        }
+    )
+
+    return AttendanceResponse(
+        id=attendance["_id"],
+        employee_id=user["id"],
+        employee_name=user["username"],
+        date=today,
+        check_in=attendance["check_in"],
+        check_out=check_out_time.isoformat(),
+        work_hours=round(work_hours, 2),
+        status=status,
+        notes=check_out_data.notes if check_out_data.notes else attendance.get("notes")
+    )
+
+
+@api_router.get("/attendance/my-records", response_model=List[AttendanceResponse])
+async def get_my_attendance(
+    request: Request,
+    user: Dict = Depends(get_current_user),
+    limit: int = 30
+):
+    """Get current user's attendance records."""
+    db = _ensure_db(request)
+
+    records = await db.attendance.find(
+        {"employee_id": user["id"]}
+    ).sort("date", -1).limit(limit).to_list(limit)
+
+    return [
+        AttendanceResponse(
+            id=record["_id"],
+            employee_id=record["employee_id"],
+            employee_name=user["username"],
+            date=record["date"],
+            check_in=record["check_in"],
+            check_out=record.get("check_out"),
+            work_hours=record.get("work_hours"),
+            status=record["status"],
+            notes=record.get("notes")
+        )
+        for record in records
+    ]
+
+
+@api_router.get("/attendance/today")
+async def get_today_attendance(request: Request, user: Dict = Depends(get_current_user)):
+    """Get today's attendance status."""
+    db = _ensure_db(request)
+
+    today = datetime.now(timezone.utc).date().isoformat()
+
+    attendance = await db.attendance.find_one({
+        "employee_id": user["id"],
+        "date": today
+    })
+
+    if not attendance:
+        return {"checked_in": False, "date": today}
+
+    return {
+        "checked_in": True,
+        "checked_out": attendance.get("check_out") is not None,
+        "date": today,
+        "check_in": attendance["check_in"],
+        "check_out": attendance.get("check_out"),
+        "work_hours": attendance.get("work_hours"),
+        "status": attendance["status"]
+    }
+
+
+@api_router.get("/attendance/report")
+async def get_attendance_report(
+    request: Request,
+    user: Dict = Depends(get_current_user),
+    start_date: Optional[str] = None,
+    end_date: Optional[str] = None
+):
+    """Get attendance report (Manager/Admin)."""
+    if user["role"] not in ["manager", "admin"]:
+        raise HTTPException(status_code=403, detail="Manager or Admin access required")
+
+    db = _ensure_db(request)
+
+    # Build query
+    query = {}
+    if start_date and end_date:
+        query["date"] = {"$gte": start_date, "$lte": end_date}
+
+    records = await db.attendance.find(query).sort("date", -1).to_list(10000)
+
+    # Get all users
+    users = await db.users.find().to_list(10000)
+    user_map = {u["_id"]: u["username"] for u in users}
+
+    # Build report
+    report = []
+    for record in records:
+        employee_name = user_map.get(record["employee_id"], "Unknown")
+
+        report.append({
+            "employee_name": employee_name,
+            "date": record["date"],
+            "check_in": record["check_in"],
+            "check_out": record.get("check_out", "N/A"),
+            "work_hours": record.get("work_hours", 0),
+            "status": record["status"].upper(),
+            "notes": record.get("notes", "N/A")
+        })
+
+    return {"success": True, "report": report, "total_records": len(report)}
+
+
+# ============= ANNOUNCEMENTS ENDPOINTS =============
+
+@api_router.post("/announcements", response_model=AnnouncementResponse)
+async def create_announcement(
+    announcement_data: AnnouncementCreate,
+    request: Request,
+    user: Dict = Depends(get_current_user)
+):
+    """Create announcement (Admin only)."""
+    if user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    db = _ensure_db(request)
+
+    # Validate priority
+    if announcement_data.priority not in ["low", "normal", "high", "urgent"]:
+        raise HTTPException(status_code=400, detail="Invalid priority")
+
+    # Validate target roles if provided
+    if announcement_data.target_roles:
+        for role in announcement_data.target_roles:
+            if role not in ["employee", "manager", "admin"]:
+                raise HTTPException(status_code=400, detail="Invalid target role")
+
+    announcement_id = str(uuid.uuid4())
+    announcement = {
+        "_id": announcement_id,
+        "title": announcement_data.title,
+        "content": announcement_data.content,
+        "priority": announcement_data.priority,
+        "target_roles": announcement_data.target_roles,
+        "created_by": user["id"],
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "is_active": True
+    }
+
+    await db.announcements.insert_one(announcement)
+
+    return AnnouncementResponse(
+        id=announcement_id,
+        title=announcement_data.title,
+        content=announcement_data.content,
+        priority=announcement_data.priority,
+        target_roles=announcement_data.target_roles,
+        created_by=user["id"],
+        created_by_name=user["username"],
+        created_at=announcement["created_at"],
+        is_active=True
+    )
+
+
+@api_router.get("/announcements", response_model=List[AnnouncementResponse])
+async def get_announcements(request: Request, user: Dict = Depends(get_current_user)):
+    """Get announcements visible to current user."""
+    db = _ensure_db(request)
+
+    # Get active announcements
+    query = {"is_active": True}
+    announcements = await db.announcements.find(query).sort("created_at", -1).to_list(100)
+
+    # Filter by target roles
+    filtered = []
+    for announcement in announcements:
+        target_roles = announcement.get("target_roles")
+
+        # If no target roles, show to everyone
+        if not target_roles or user["role"] in target_roles:
+            # Get creator name
+            creator = await db.users.find_one({"_id": announcement["created_by"]})
+            creator_name = creator["username"] if creator else "System"
+
+            filtered.append(AnnouncementResponse(
+                id=announcement["_id"],
+                title=announcement["title"],
+                content=announcement["content"],
+                priority=announcement["priority"],
+                target_roles=announcement.get("target_roles"),
+                created_by=announcement["created_by"],
+                created_by_name=creator_name,
+                created_at=announcement["created_at"],
+                is_active=announcement["is_active"]
+            ))
+
+    return filtered
+
+
+@api_router.delete("/announcements/{announcement_id}")
+async def delete_announcement(
+    announcement_id: str,
+    request: Request,
+    user: Dict = Depends(get_current_user)
+):
+    """Delete/deactivate announcement (Admin only)."""
+    if user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    db = _ensure_db(request)
+
+    # Soft delete by setting is_active to False
+    result = await db.announcements.update_one(
+        {"_id": announcement_id},
+        {"$set": {"is_active": False}}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Announcement not found")
+
+    return {"success": True, "message": "Announcement deleted successfully"}
 
 
 @api_router.post("/status", response_model=StatusCheck)
