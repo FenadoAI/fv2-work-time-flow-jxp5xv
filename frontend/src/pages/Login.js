@@ -18,8 +18,17 @@ const Login = () => {
 
     try {
       const response = await axios.post(`${API}/auth/login`, formData);
-      login(response.data.token, response.data.user);
-      navigate("/");
+      const userData = response.data.user;
+      login(response.data.token, userData);
+
+      // Redirect based on role
+      if (userData.role === 'admin') {
+        navigate("/admin");
+      } else if (userData.role === 'manager') {
+        navigate("/manager");
+      } else {
+        navigate("/employee");
+      }
     } catch (err) {
       setError(err.response?.data?.detail || "Login failed. Please try again.");
     } finally {

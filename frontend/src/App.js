@@ -91,6 +91,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 };
 
 // Import pages
+import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
@@ -106,9 +107,10 @@ function App() {
       <div className="App">
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={
+            <Route path="/dashboard" element={
               <ProtectedRoute>
                 <DashboardRouter />
               </ProtectedRoute>
