@@ -433,3 +433,94 @@ Build a complete HRIS leave management system with:
 ✅ **Brand Identity**: Unified look and feel reinforcing brand
 ✅ **Performance**: No unnecessary gradients or heavy animations
 ✅ **Clarity**: Clean, focused design emphasizing content hierarchy
+
+---
+
+## Homepage Visual Enhancement
+**Date**: 2025-10-01
+**Request**: Add images to landing page to make it less bland
+
+### Images Generated & Added
+
+**1. Hero Section Image (16:9)**
+- Professional HRIS dashboard illustration
+- Modern, clean corporate design with Ocean Blue color scheme
+- Shows collaborative workplace atmosphere
+- Positioned on the right side of hero section (desktop view)
+- URL: `https://storage.googleapis.com/fenado-ai-farm-public/generated/9e890a98-dfe8-4779-9760-e4f70d388188.webp`
+
+**2. Team Collaboration Image (16:9)**
+- Diverse employees working together on HR tasks
+- Ocean blue and teal color palette matching design system
+- Placed in features section for context
+- URL: `https://storage.googleapis.com/fenado-ai-farm-public/generated/7a081040-d122-4ef9-9d97-35a82cde4b41.webp`
+
+**3. Time Tracking Illustration (1:1)**
+- Clock icons, calendar elements, check-in interface
+- Minimalist modern design in Ocean Blue
+- Used in benefits section (left column)
+- URL: `https://storage.googleapis.com/fenado-ai-farm-public/generated/2033e411-41ed-4fd5-9049-8018e349e6f3.webp`
+
+**4. Employee Profile Illustration (1:1)**
+- Professional business people with data cards
+- Clean corporate style with organized information display
+- Used in benefits section (right column)
+- URL: `https://storage.googleapis.com/fenado-ai-farm-public/generated/74e5e750-fccf-4d99-b5ba-9cff2d5abd95.webp`
+
+### Layout Enhancements
+
+**Hero Section (Two-Column Layout):**
+- Left: Text content with CTAs
+- Right: Large hero image with rounded corners and shadow
+- Responsive: Image hidden on mobile, full-width text
+
+**Features Section:**
+- Added feature spotlight with image on left, benefits on right
+- 4 key benefits with checkmark icons
+- Two-column grid for visual balance
+- Image complements feature descriptions
+
+**Benefits Section (Enhanced Grid):**
+- Two-column layout on desktop
+- Left: Benefits list with title and description
+- Right: 2x2 image grid with stat cards
+  - Top-left: Time tracking image
+  - Top-right: "98% Satisfaction" stat card
+  - Bottom-left: "50% Time Saved" stat card
+  - Bottom-right: Employee profile image
+- Creates dynamic, engaging visual flow
+- All images have rounded corners and shadows
+
+### Design Improvements
+
+**Visual Hierarchy:**
+✅ Images break up text-heavy sections
+✅ Create focal points for user attention
+✅ Support messaging with relevant visuals
+✅ Add depth and dimension to flat design
+
+**User Engagement:**
+✅ More inviting and approachable
+✅ Professional yet friendly aesthetic
+✅ Tells a story through imagery
+✅ Demonstrates product value visually
+
+**Technical Implementation:**
+✅ Optimized WebP format for performance
+✅ Responsive image sizing
+✅ Proper aspect ratios (16:9 and 1:1)
+✅ Shadow and border effects for depth
+✅ Hidden on mobile where appropriate
+✅ Images match Ocean Blue color palette
+
+**Before vs After:**
+- **Before**: Text-only, minimal visual interest
+- **After**: Rich, engaging, professional imagery throughout
+- **Impact**: More compelling landing page that converts better
+
+### Image Style Consistency
+- All images generated with Ocean Blue color scheme
+- Professional corporate aesthetic
+- Modern, clean illustration style
+- Consistent with overall design system
+- High quality, optimized for web

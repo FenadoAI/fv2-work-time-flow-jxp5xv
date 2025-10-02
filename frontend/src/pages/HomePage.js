@@ -81,76 +81,87 @@ function HomePage() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'hsl(0, 0%, 98%)' }}>
-      {/* Hero Section - 3xl spacing (64px) */}
+      {/* Hero Section with Image */}
       <div className="relative overflow-hidden" style={{ backgroundColor: 'hsl(200, 84%, 42%)' }}>
         <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-          <div className="text-center">
-            {/* Icon with 2xl spacing (48px) below */}
-            <div className="inline-flex items-center justify-center w-20 h-20 mb-12 rounded-2xl" style={{ backgroundColor: 'hsla(0, 0%, 100%, 0.2)' }}>
-              <Briefcase className="w-10 h-10 text-white" strokeWidth={2} />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Text Content */}
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center justify-center w-20 h-20 mb-12 rounded-2xl lg:inline-flex" style={{ backgroundColor: 'hsla(0, 0%, 100%, 0.2)' }}>
+                <Briefcase className="w-10 h-10 text-white" strokeWidth={2} />
+              </div>
+              
+              <h1 
+                className="font-bold mb-6"
+                style={{ 
+                  fontSize: '2.5rem', 
+                  lineHeight: '1.25', 
+                  letterSpacing: '-0.02em',
+                  color: 'hsl(0, 0%, 100%)'
+                }}
+              >
+                Modern HRIS Solution
+              </h1>
+              
+              <p 
+                className="mb-12"
+                style={{ 
+                  fontSize: '1.125rem', 
+                  lineHeight: '1.75',
+                  color: 'hsla(0, 0%, 100%, 0.9)'
+                }}
+              >
+                Streamline your HR operations with our comprehensive platform for leave management,
+                attendance tracking, and employee engagement. Built for modern workplaces.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+                <Button
+                  onClick={() => navigate('/login')}
+                  className="px-8 py-6 font-semibold transition-all duration-150"
+                  style={{ 
+                    backgroundColor: 'hsl(0, 0%, 100%)',
+                    color: 'hsl(200, 84%, 42%)',
+                    fontSize: '1.125rem'
+                  }}
+                  size="lg"
+                >
+                  Login
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <Button
+                  onClick={() => navigate('/register')}
+                  variant="outline"
+                  className="px-8 py-6 font-semibold border-2 transition-all duration-150"
+                  style={{ 
+                    borderColor: 'hsl(0, 0%, 100%)',
+                    color: 'hsl(0, 0%, 100%)',
+                    backgroundColor: 'transparent',
+                    fontSize: '1.125rem'
+                  }}
+                  size="lg"
+                >
+                  Get Started
+                </Button>
+              </div>
             </div>
-            
-            {/* Heading 1: 2.5rem (40px) / Bold / -0.02em */}
-            <h1 
-              className="font-bold mb-6"
-              style={{ 
-                fontSize: '2.5rem', 
-                lineHeight: '1.25', 
-                letterSpacing: '-0.02em',
-                color: 'hsl(0, 0%, 100%)'
-              }}
-            >
-              Modern HRIS Solution
-            </h1>
-            
-            {/* Body Large: 1.125rem (18px) / Regular / 0 */}
-            <p 
-              className="mb-12 max-w-3xl mx-auto"
-              style={{ 
-                fontSize: '1.125rem', 
-                lineHeight: '1.75',
-                color: 'hsla(0, 0%, 100%, 0.9)'
-              }}
-            >
-              Streamline your HR operations with our comprehensive platform for leave management,
-              attendance tracking, and employee engagement. Built for modern workplaces.
-            </p>
-            
-            {/* CTA Buttons with lg spacing (24px) gap */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Button
-                onClick={() => navigate('/login')}
-                className="px-8 py-6 font-semibold transition-all duration-150"
-                style={{ 
-                  backgroundColor: 'hsl(0, 0%, 100%)',
-                  color: 'hsl(200, 84%, 42%)',
-                  fontSize: '1.125rem'
-                }}
-                size="lg"
-              >
-                Login
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button
-                onClick={() => navigate('/register')}
-                variant="outline"
-                className="px-8 py-6 font-semibold border-2 transition-all duration-150"
-                style={{ 
-                  borderColor: 'hsl(0, 0%, 100%)',
-                  color: 'hsl(0, 0%, 100%)',
-                  backgroundColor: 'transparent',
-                  fontSize: '1.125rem'
-                }}
-                size="lg"
-              >
-                Get Started
-              </Button>
+
+            {/* Right Column - Hero Image */}
+            <div className="hidden lg:block">
+              <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20">
+                <img 
+                  src="https://storage.googleapis.com/fenado-ai-farm-public/generated/9e890a98-dfe8-4779-9760-e4f70d388188.webp"
+                  alt="Modern HRIS Dashboard"
+                  className="w-full h-auto"
+                  style={{ maxHeight: '500px', objectFit: 'cover' }}
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Stats Section - Negative margin for overlap effect */}
+      {/* Stats Section */}
       <div className="max-w-7xl mx-auto px-6 -mt-16 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {stats.map((stat, idx) => {
@@ -171,7 +182,6 @@ function HomePage() {
                   >
                     <Icon className="w-6 h-6 text-white" strokeWidth={2} />
                   </div>
-                  {/* Heading 2: 2rem (32px) / SemiBold */}
                   <div 
                     className="font-semibold mb-1"
                     style={{ 
@@ -182,7 +192,6 @@ function HomePage() {
                   >
                     {stat.value}
                   </div>
-                  {/* Body Small: 0.875rem (14px) */}
                   <div 
                     className="font-medium"
                     style={{ 
@@ -199,11 +208,9 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Features Section - 2xl spacing (48px) top and bottom */}
+      {/* Features Section with Image */}
       <div className="max-w-7xl mx-auto px-6 py-24">
-        {/* Section Header with xl spacing (32px) below */}
         <div className="text-center mb-16">
-          {/* Heading 2: 2rem (32px) / SemiBold / -0.01em */}
           <h2 
             className="font-semibold mb-4"
             style={{ 
@@ -215,7 +222,6 @@ function HomePage() {
           >
             Everything You Need
           </h2>
-          {/* Body Large */}
           <p 
             className="max-w-2xl mx-auto"
             style={{ 
@@ -228,7 +234,41 @@ function HomePage() {
           </p>
         </div>
 
-        {/* Feature Grid with lg spacing (24px) gaps */}
+        {/* Feature Image Section */}
+        <div className="mb-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="order-2 lg:order-1">
+            <img 
+              src="https://storage.googleapis.com/fenado-ai-farm-public/generated/7a081040-d122-4ef9-9d97-35a82cde4b41.webp"
+              alt="Team Collaboration"
+              className="w-full h-auto rounded-2xl shadow-xl"
+            />
+          </div>
+          <div className="order-1 lg:order-2 space-y-6">
+            <h3 
+              className="font-semibold"
+              style={{ 
+                fontSize: '1.5rem',
+                lineHeight: '1.25',
+                color: 'hsl(0, 0%, 12%)'
+              }}
+            >
+              Collaborate Effectively
+            </h3>
+            <p style={{ fontSize: '1rem', lineHeight: '1.5', color: 'hsl(0, 0%, 45%)' }}>
+              Enable seamless collaboration between employees, managers, and HR teams. Our platform brings everyone together with intuitive tools for leave approvals, attendance tracking, and real-time communication.
+            </p>
+            <ul className="space-y-3">
+              {['Real-time notifications', 'Quick approval workflows', 'Team calendar views', 'Mobile accessibility'].map((item, idx) => (
+                <li key={idx} className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0" style={{ color: 'hsl(160, 84%, 42%)' }} strokeWidth={2} />
+                  <span style={{ fontSize: '1rem', color: 'hsl(0, 0%, 12%)' }}>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Feature Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, idx) => {
             const Icon = feature.icon;
@@ -248,7 +288,6 @@ function HomePage() {
                   >
                     <Icon className="w-8 h-8 text-white" strokeWidth={2} />
                   </div>
-                  {/* Heading 3: 1.5rem (24px) / SemiBold */}
                   <CardTitle 
                     className="font-semibold mb-2"
                     style={{ 
@@ -259,7 +298,6 @@ function HomePage() {
                   >
                     {feature.title}
                   </CardTitle>
-                  {/* Body: 1rem (16px) / Regular */}
                   <CardDescription 
                     style={{ 
                       fontSize: '1rem',
@@ -276,68 +314,90 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Benefits Section with Primary Background */}
+      {/* Benefits Section with Images */}
       <div 
         className="py-24"
         style={{ backgroundColor: 'hsl(200, 84%, 42%)' }}
       >
         <div className="max-w-7xl mx-auto px-6">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 
-              className="font-semibold mb-4"
-              style={{ 
-                fontSize: '2rem', 
-                lineHeight: '1.25',
-                letterSpacing: '-0.01em',
-                color: 'hsl(0, 0%, 100%)'
-              }}
-            >
-              Why Choose Our HRIS?
-            </h2>
-            <p 
-              className="max-w-2xl mx-auto"
-              style={{ 
-                fontSize: '1.125rem',
-                lineHeight: '1.5',
-                color: 'hsla(0, 0%, 100%, 0.9)'
-              }}
-            >
-              Built with modern technology and best practices
-            </p>
-          </div>
-
-          {/* Benefits Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              'Multi-role access control (Employee, Manager, Admin)',
-              'Automated leave balance tracking',
-              'Real-time attendance monitoring',
-              'Priority-based announcements',
-              'Comprehensive reporting',
-              'Mobile-responsive design',
-              'Secure authentication',
-              'Easy-to-use interface'
-            ].map((benefit, idx) => (
-              <div 
-                key={idx} 
-                className="flex items-center gap-4 p-4 rounded-xl transition-all duration-150"
-                style={{ backgroundColor: 'hsla(0, 0%, 100%, 0.1)' }}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+            <div>
+              <h2 
+                className="font-semibold mb-4"
+                style={{ 
+                  fontSize: '2rem', 
+                  lineHeight: '1.25',
+                  letterSpacing: '-0.01em',
+                  color: 'hsl(0, 0%, 100%)'
+                }}
               >
-                <div className="flex-shrink-0">
-                  <CheckCircle className="w-6 h-6" style={{ color: 'hsl(160, 84%, 42%)' }} strokeWidth={2} />
+                Why Choose Our HRIS?
+              </h2>
+              <p 
+                className="mb-8"
+                style={{ 
+                  fontSize: '1.125rem',
+                  lineHeight: '1.5',
+                  color: 'hsla(0, 0%, 100%, 0.9)'
+                }}
+              >
+                Built with modern technology and best practices for seamless HR management
+              </p>
+
+              {/* Benefits Grid */}
+              <div className="grid grid-cols-1 gap-4">
+                {[
+                  'Multi-role access control',
+                  'Automated leave tracking',
+                  'Real-time attendance',
+                  'Priority announcements'
+                ].map((benefit, idx) => (
+                  <div 
+                    key={idx} 
+                    className="flex items-center gap-4 p-4 rounded-xl transition-all duration-150"
+                    style={{ backgroundColor: 'hsla(0, 0%, 100%, 0.1)' }}
+                  >
+                    <CheckCircle className="w-6 h-6 flex-shrink-0" style={{ color: 'hsl(160, 84%, 42%)' }} strokeWidth={2} />
+                    <span 
+                      className="font-medium"
+                      style={{ 
+                        fontSize: '1rem',
+                        color: 'hsl(0, 0%, 100%)'
+                      }}
+                    >
+                      {benefit}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="hidden lg:block">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <img 
+                    src="https://storage.googleapis.com/fenado-ai-farm-public/generated/2033e411-41ed-4fd5-9049-8018e349e6f3.webp"
+                    alt="Time Tracking"
+                    className="w-full h-auto rounded-2xl shadow-xl"
+                  />
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-white">
+                    <h4 className="font-semibold mb-2">98% Satisfaction</h4>
+                    <p className="text-sm opacity-90">From our users</p>
+                  </div>
                 </div>
-                <div 
-                  className="font-medium"
-                  style={{ 
-                    fontSize: '1rem',
-                    color: 'hsl(0, 0%, 100%)'
-                  }}
-                >
-                  {benefit}
+                <div className="space-y-4 mt-8">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-white">
+                    <h4 className="font-semibold mb-2">50% Time Saved</h4>
+                    <p className="text-sm opacity-90">On HR tasks</p>
+                  </div>
+                  <img 
+                    src="https://storage.googleapis.com/fenado-ai-farm-public/generated/74e5e750-fccf-4d99-b5ba-9cff2d5abd95.webp"
+                    alt="Employee Profiles"
+                    className="w-full h-auto rounded-2xl shadow-xl"
+                  />
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>
