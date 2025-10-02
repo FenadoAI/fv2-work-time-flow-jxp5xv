@@ -8,14 +8,12 @@ import {
   Clock,
   Users,
   FileText,
-  TrendingUp,
   Shield,
   Briefcase,
-  Heart,
   Megaphone,
-  Award,
   CheckCircle,
-  ArrowRight
+  ArrowRight,
+  TrendingUp
 } from 'lucide-react';
 
 function HomePage() {
@@ -39,74 +37,95 @@ function HomePage() {
     {
       icon: Calendar,
       title: 'Leave Management',
-      description: 'Manage CL, EL, SL, WFH, and compensatory leaves with ease',
-      color: 'from-blue-500 to-indigo-500'
+      description: 'Comprehensive leave tracking with CL, EL, SL, WFH, and compensatory leaves',
+      color: 'hsl(200, 84%, 42%)'
     },
     {
       icon: Clock,
       title: 'Attendance Tracking',
-      description: 'Check-in/out system with automatic work hours calculation',
-      color: 'from-purple-500 to-pink-500'
+      description: 'Real-time check-in/out system with automatic work hours calculation',
+      color: 'hsl(180, 84%, 45%)'
     },
     {
       icon: Users,
       title: 'Employee Profiles',
-      description: 'Comprehensive profile management with skills and documents',
-      color: 'from-green-500 to-emerald-500'
+      description: 'Complete profile management with skills, documents, and contact information',
+      color: 'hsl(160, 84%, 42%)'
     },
     {
       icon: Megaphone,
       title: 'Announcements',
-      description: 'Company-wide communication with priority-based notifications',
-      color: 'from-orange-500 to-red-500'
+      description: 'Priority-based company-wide communication system',
+      color: 'hsl(45, 84%, 42%)'
     },
     {
       icon: FileText,
       title: 'Reports & Analytics',
-      description: 'Exportable reports for leave and attendance tracking',
-      color: 'from-cyan-500 to-blue-500'
+      description: 'Comprehensive reporting for leave and attendance data',
+      color: 'hsl(280, 84%, 42%)'
     },
     {
       icon: Shield,
-      title: 'Role-Based Access',
-      description: 'Secure access control for employees, managers, and admins',
-      color: 'from-indigo-500 to-purple-500'
+      title: 'Secure Access Control',
+      description: 'Role-based permissions for employees, managers, and administrators',
+      color: 'hsl(320, 84%, 42%)'
     }
   ];
 
   const stats = [
-    { label: 'Leave Types', value: '5+', icon: Calendar },
+    { label: 'Leave Types', value: '5', icon: Calendar },
     { label: 'User Roles', value: '3', icon: Users },
-    { label: 'Features', value: '15+', icon: TrendingUp },
-    { label: 'Secure', value: '100%', icon: Shield }
+    { label: 'Core Features', value: '15+', icon: TrendingUp },
+    { label: 'Security', value: '100%', icon: Shield }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 opacity-90"></div>
-        <div className="absolute inset-0">
-          <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute -top-32 -left-32 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+    <div className="min-h-screen" style={{ backgroundColor: 'hsl(0, 0%, 98%)' }}>
+      {/* Hero Section - 3xl spacing (64px) */}
+      <div className="relative overflow-hidden" style={{ backgroundColor: 'hsl(200, 84%, 42%)' }}>
+        <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
           <div className="text-center">
-            <div className="inline-block p-3 bg-white/20 backdrop-blur-sm rounded-2xl mb-8">
-              <Briefcase className="h-16 w-16 text-white" />
+            {/* Icon with 2xl spacing (48px) below */}
+            <div className="inline-flex items-center justify-center w-20 h-20 mb-12 rounded-2xl" style={{ backgroundColor: 'hsla(0, 0%, 100%, 0.2)' }}>
+              <Briefcase className="w-10 h-10 text-white" strokeWidth={2} />
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            
+            {/* Heading 1: 2.5rem (40px) / Bold / -0.02em */}
+            <h1 
+              className="font-bold mb-6"
+              style={{ 
+                fontSize: '2.5rem', 
+                lineHeight: '1.25', 
+                letterSpacing: '-0.02em',
+                color: 'hsl(0, 0%, 100%)'
+              }}
+            >
               Modern HRIS Solution
             </h1>
-            <p className="text-xl md:text-2xl text-blue-100 mb-12 max-w-3xl mx-auto">
+            
+            {/* Body Large: 1.125rem (18px) / Regular / 0 */}
+            <p 
+              className="mb-12 max-w-3xl mx-auto"
+              style={{ 
+                fontSize: '1.125rem', 
+                lineHeight: '1.75',
+                color: 'hsla(0, 0%, 100%, 0.9)'
+              }}
+            >
               Streamline your HR operations with our comprehensive platform for leave management,
-              attendance tracking, and employee engagement.
+              attendance tracking, and employee engagement. Built for modern workplaces.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            
+            {/* CTA Buttons with lg spacing (24px) gap */}
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button
                 onClick={() => navigate('/login')}
-                className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-6 text-lg font-semibold shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105"
+                className="px-8 py-6 font-semibold transition-all duration-150"
+                style={{ 
+                  backgroundColor: 'hsl(0, 0%, 100%)',
+                  color: 'hsl(200, 84%, 42%)',
+                  fontSize: '1.125rem'
+                }}
                 size="lg"
               >
                 Login
@@ -115,7 +134,13 @@ function HomePage() {
               <Button
                 onClick={() => navigate('/register')}
                 variant="outline"
-                className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-6 text-lg font-semibold backdrop-blur-sm"
+                className="px-8 py-6 font-semibold border-2 transition-all duration-150"
+                style={{ 
+                  borderColor: 'hsl(0, 0%, 100%)',
+                  color: 'hsl(0, 0%, 100%)',
+                  backgroundColor: 'transparent',
+                  fontSize: '1.125rem'
+                }}
                 size="lg"
               >
                 Get Started
@@ -125,19 +150,48 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Stats Section - Negative margin for overlap effect */}
+      <div className="max-w-7xl mx-auto px-6 -mt-16 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {stats.map((stat, idx) => {
             const Icon = stat.icon;
             return (
-              <Card key={idx} className="shadow-2xl border-0 backdrop-blur-sm bg-white/95 hover:shadow-3xl transition-all transform hover:scale-105">
+              <Card 
+                key={idx} 
+                className="border transition-all duration-300 hover:shadow-lg"
+                style={{ 
+                  backgroundColor: 'hsl(0, 0%, 100%)',
+                  borderColor: 'hsl(0, 0%, 88%)'
+                }}
+              >
                 <CardContent className="p-6 text-center">
-                  <div className="inline-block p-3 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl mb-3">
-                    <Icon className="h-6 w-6 text-white" />
+                  <div 
+                    className="inline-flex items-center justify-center w-12 h-12 mb-3 rounded-xl"
+                    style={{ backgroundColor: 'hsl(200, 84%, 42%)' }}
+                  >
+                    <Icon className="w-6 h-6 text-white" strokeWidth={2} />
                   </div>
-                  <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-                  <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
+                  {/* Heading 2: 2rem (32px) / SemiBold */}
+                  <div 
+                    className="font-semibold mb-1"
+                    style={{ 
+                      fontSize: '2rem', 
+                      lineHeight: '1.25',
+                      color: 'hsl(0, 0%, 12%)'
+                    }}
+                  >
+                    {stat.value}
+                  </div>
+                  {/* Body Small: 0.875rem (14px) */}
+                  <div 
+                    className="font-medium"
+                    style={{ 
+                      fontSize: '0.875rem',
+                      color: 'hsl(0, 0%, 45%)'
+                    }}
+                  >
+                    {stat.label}
+                  </div>
                 </CardContent>
               </Card>
             );
@@ -145,28 +199,74 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Features Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      {/* Features Section - 2xl spacing (48px) top and bottom */}
+      <div className="max-w-7xl mx-auto px-6 py-24">
+        {/* Section Header with xl spacing (32px) below */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          {/* Heading 2: 2rem (32px) / SemiBold / -0.01em */}
+          <h2 
+            className="font-semibold mb-4"
+            style={{ 
+              fontSize: '2rem', 
+              lineHeight: '1.25',
+              letterSpacing: '-0.01em',
+              color: 'hsl(0, 0%, 12%)'
+            }}
+          >
             Everything You Need
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          {/* Body Large */}
+          <p 
+            className="max-w-2xl mx-auto"
+            style={{ 
+              fontSize: '1.125rem',
+              lineHeight: '1.5',
+              color: 'hsl(0, 0%, 45%)'
+            }}
+          >
             A complete HRIS platform designed for modern workplaces
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Feature Grid with lg spacing (24px) gaps */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, idx) => {
             const Icon = feature.icon;
             return (
-              <Card key={idx} className="shadow-xl border-0 backdrop-blur-sm bg-white/90 hover:shadow-2xl transition-all transform hover:scale-105">
-                <CardHeader>
-                  <div className={`inline-block p-4 bg-gradient-to-br ${feature.color} rounded-2xl mb-4 shadow-lg`}>
-                    <Icon className="h-8 w-8 text-white" />
+              <Card 
+                key={idx} 
+                className="border transition-all duration-300 hover:shadow-lg"
+                style={{ 
+                  backgroundColor: 'hsl(0, 0%, 100%)',
+                  borderColor: 'hsl(0, 0%, 88%)'
+                }}
+              >
+                <CardHeader className="p-6">
+                  <div 
+                    className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl"
+                    style={{ backgroundColor: feature.color }}
+                  >
+                    <Icon className="w-8 h-8 text-white" strokeWidth={2} />
                   </div>
-                  <CardTitle className="text-xl text-gray-900">{feature.title}</CardTitle>
-                  <CardDescription className="text-gray-600">
+                  {/* Heading 3: 1.5rem (24px) / SemiBold */}
+                  <CardTitle 
+                    className="font-semibold mb-2"
+                    style={{ 
+                      fontSize: '1.5rem',
+                      lineHeight: '1.25',
+                      color: 'hsl(0, 0%, 12%)'
+                    }}
+                  >
+                    {feature.title}
+                  </CardTitle>
+                  {/* Body: 1rem (16px) / Regular */}
+                  <CardDescription 
+                    style={{ 
+                      fontSize: '1rem',
+                      lineHeight: '1.5',
+                      color: 'hsl(0, 0%, 45%)'
+                    }}
+                  >
                     {feature.description}
                   </CardDescription>
                 </CardHeader>
@@ -176,19 +276,39 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Benefits Section */}
-      <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Benefits Section with Primary Background */}
+      <div 
+        className="py-24"
+        style={{ backgroundColor: 'hsl(200, 84%, 42%)' }}
+      >
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Section Header */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2 
+              className="font-semibold mb-4"
+              style={{ 
+                fontSize: '2rem', 
+                lineHeight: '1.25',
+                letterSpacing: '-0.01em',
+                color: 'hsl(0, 0%, 100%)'
+              }}
+            >
               Why Choose Our HRIS?
             </h2>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+            <p 
+              className="max-w-2xl mx-auto"
+              style={{ 
+                fontSize: '1.125rem',
+                lineHeight: '1.5',
+                color: 'hsla(0, 0%, 100%, 0.9)'
+              }}
+            >
               Built with modern technology and best practices
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Benefits Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               'Multi-role access control (Employee, Manager, Admin)',
               'Automated leave balance tracking',
@@ -199,11 +319,23 @@ function HomePage() {
               'Secure authentication',
               'Easy-to-use interface'
             ].map((benefit, idx) => (
-              <div key={idx} className="flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-xl p-4">
+              <div 
+                key={idx} 
+                className="flex items-center gap-4 p-4 rounded-xl transition-all duration-150"
+                style={{ backgroundColor: 'hsla(0, 0%, 100%, 0.1)' }}
+              >
                 <div className="flex-shrink-0">
-                  <CheckCircle className="h-6 w-6 text-green-300" />
+                  <CheckCircle className="w-6 h-6" style={{ color: 'hsl(160, 84%, 42%)' }} strokeWidth={2} />
                 </div>
-                <div className="text-white font-medium">{benefit}</div>
+                <div 
+                  className="font-medium"
+                  style={{ 
+                    fontSize: '1rem',
+                    color: 'hsl(0, 0%, 100%)'
+                  }}
+                >
+                  {benefit}
+                </div>
               </div>
             ))}
           </div>
@@ -211,19 +343,48 @@ function HomePage() {
       </div>
 
       {/* CTA Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <Card className="shadow-2xl border-0 overflow-hidden backdrop-blur-sm bg-white/90">
-          <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-12 text-center">
-            <h2 className="text-4xl font-bold text-white mb-4">
+      <div className="max-w-7xl mx-auto px-6 py-24">
+        <Card 
+          className="border overflow-hidden"
+          style={{ 
+            backgroundColor: 'hsl(0, 0%, 100%)',
+            borderColor: 'hsl(0, 0%, 88%)'
+          }}
+        >
+          <div 
+            className="p-12 text-center"
+            style={{ backgroundColor: 'hsl(200, 84%, 42%)' }}
+          >
+            <h2 
+              className="font-semibold mb-4"
+              style={{ 
+                fontSize: '2rem', 
+                lineHeight: '1.25',
+                letterSpacing: '-0.01em',
+                color: 'hsl(0, 0%, 100%)'
+              }}
+            >
               Ready to Get Started?
             </h2>
-            <p className="text-xl text-blue-100 mb-8">
+            <p 
+              className="mb-8"
+              style={{ 
+                fontSize: '1.125rem',
+                lineHeight: '1.5',
+                color: 'hsla(0, 0%, 100%, 0.9)'
+              }}
+            >
               Join thousands of organizations using our HRIS platform
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 onClick={() => navigate('/register')}
-                className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-6 text-lg font-semibold shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105"
+                className="px-8 py-6 font-semibold transition-all duration-150"
+                style={{ 
+                  backgroundColor: 'hsl(0, 0%, 100%)',
+                  color: 'hsl(200, 84%, 42%)',
+                  fontSize: '1.125rem'
+                }}
                 size="lg"
               >
                 Create Account
@@ -232,7 +393,13 @@ function HomePage() {
               <Button
                 onClick={() => navigate('/login')}
                 variant="outline"
-                className="bg-transparent border-2 border-white text-white hover:bg-white/10 px-8 py-6 text-lg font-semibold backdrop-blur-sm"
+                className="px-8 py-6 font-semibold border-2 transition-all duration-150"
+                style={{ 
+                  borderColor: 'hsl(0, 0%, 100%)',
+                  color: 'hsl(0, 0%, 100%)',
+                  backgroundColor: 'transparent',
+                  fontSize: '1.125rem'
+                }}
                 size="lg"
               >
                 Sign In
@@ -243,16 +410,33 @@ function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <footer 
+        className="py-12"
+        style={{ 
+          backgroundColor: 'hsl(0, 0%, 12%)',
+          color: 'hsl(0, 0%, 65%)'
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Briefcase className="h-6 w-6 text-blue-400" />
-            <span className="text-xl font-bold text-white">HRIS Platform</span>
+            <Briefcase className="w-6 h-6" style={{ color: 'hsl(200, 84%, 42%)' }} strokeWidth={2} />
+            <span 
+              className="font-bold"
+              style={{ 
+                fontSize: '1.25rem',
+                color: 'hsl(0, 0%, 100%)'
+              }}
+            >
+              HRIS Platform
+            </span>
           </div>
-          <p className="text-sm">
+          <p style={{ fontSize: '0.875rem' }}>
             © 2025 HRIS Platform. All rights reserved.
           </p>
-          <p className="text-xs mt-2">
+          <p 
+            className="mt-2"
+            style={{ fontSize: '0.75rem', color: 'hsl(0, 0%, 45%)' }}
+          >
             Built with React, FastAPI, and MongoDB
           </p>
         </div>
